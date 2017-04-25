@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y \
         libevent-dev \
         librabbitmq-dev \
     && docker-php-ext-install iconv \
-    && docker-php-ext-install mcrypt \
+#    && docker-php-ext-install mcrypt \
     && docker-php-ext-install zip \
     && docker-php-ext-install bz2 \
     && docker-php-ext-install mbstring \
