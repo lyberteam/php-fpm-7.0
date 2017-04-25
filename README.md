@@ -12,20 +12,20 @@
 
 > PHP installed also globally
 
-## Programs
+#### Programs
    * curl
    * mc
    * vim
    * wget
 
-## [ Zend Modules ]
+#### [ Zend Modules ]
    * Xdebug
    * Zend OPcache
 
-## [ PHP Modules ]
-   * amqp
-   * apc
-   * apcu
+#### [ PHP Modules ]
+   * amqp `(removed)`
+   * apc `(removed)`
+   * apcu `(removed)`
    * bcmath
    * bz2
    * Core
@@ -36,7 +36,7 @@
    * ev
    * fileinfo
    * filter
-   * ftp
+   * ftp `(removed)`
    * gd
    * hash
    * iconv
