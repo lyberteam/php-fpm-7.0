@@ -8,7 +8,7 @@ RUN /var/www/lyberteam/lyberteam-message.sh && rm -f /var/www/lyberteam/lybertea
 MAINTAINER Lyberteam <lyberteamltd@gmail.com>
 LABEL Vendor="Lyberteam"
 LABEL Description="PHP-FPM v7.0-fpm"
-LABEL Version="1.0.1"
+LABEL Version="1.0.2"
 
 RUN apt-get update && apt-get install -y \
         libicu-dev \
@@ -87,7 +87,7 @@ RUN usermod -u 1000 www-data
 CMD ["php-fpm"]
 
 ## Let's set the working dir
-VOLUME /var/www/lyberteam
+WORKDIR /var/www/lyberteam
 
 
 EXPOSE 9000
