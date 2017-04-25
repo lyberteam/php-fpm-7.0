@@ -15,6 +15,8 @@ RUN apt-get update && apt-get install -y \
         libpq-dev \
         libbz2-dev \
         php-pear \
+        git \
+        unzip \
         mc \
         vim \
         wget \
