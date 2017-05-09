@@ -53,7 +53,6 @@ RUN apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libpng12-dev \
-    && RUN pecl install imagick \
     && docker-php-ext-configure gd \
           --enable-gd-native-ttf \
           --with-freetype-dir=/usr/include/freetype2 \
@@ -61,6 +60,11 @@ RUN apt-get install -y \
           --with-jpeg-dir=/usr/include \
     && docker-php-ext-install gd \
     && docker-php-ext-enable gd \
+
+# Install Imagick
+RUN apt-get install -y \
+    && libmagickwand-dev \
+    && pecl install imagick \
     && docker-php-ext-enable imagick
 
 ## Install Xdebug
@@ -77,6 +81,7 @@ RUN curl -fsSL 'https://xdebug.org/files/xdebug-2.5.3.tgz' -o xdebug.tar.gz \
     ) \
     && rm -r xdebug \
     && docker-php-ext-enable xdebug
+
 
 ADD xdebug.ini /usr/local/etc/php/conf.d/
 #    && echo "[Xdebug]" >> /usr/local/etc/php/conf.d/xdebug.ini \
