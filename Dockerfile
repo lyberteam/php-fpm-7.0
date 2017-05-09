@@ -8,21 +8,19 @@ RUN /var/www/lyberteam/lyberteam-message.sh && rm -f /var/www/lyberteam/lybertea
 MAINTAINER Lyberteam <lyberteamltd@gmail.com>
 LABEL Vendor="Lyberteam"
 LABEL Description="PHP-FPM v7.0-fpm"
-LABEL Version="1.0.2"
+LABEL Version="1.0.3"
 
 RUN apt-get update && apt-get install -y \
         libicu-dev \
-        libmcrypt-dev \
         libpq-dev \
         libbz2-dev \
         php-pear \
-        git \
-        unzip \
         mc \
         vim \
         wget \
         libevent-dev \
         librabbitmq-dev \
+        libmagickwand-dev \
     && docker-php-ext-install iconv \
     && docker-php-ext-install mcrypt \
     && docker-php-ext-install zip \
@@ -34,19 +32,35 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install bcmath \
     && docker-php-ext-install opcache \
     && docker-php-ext-enable opcache
+    && "opcache.enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+    && "opcache.enable_cli=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+    && "opcache.memory_consumption=192" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+    && "opcache.interned_strings_buffer=16" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+    && "opcache.max_accelerated_files=8000" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+    && "opcache.max_wasted_percentage=5" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+    && "opcache.use_cwd=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+    && "opcache.revalidate_freq=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+    && "opcache.validate_timestamps=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+    && "opcache.fast_shutdown=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
+
+
 
 # Install GD
 RUN apt-get install -y \
+        libmagickwand-dev \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libpng12-dev \
+        libmcrypt-dev \
+     && RUN pecl install imagick \
      && docker-php-ext-configure gd \
           --enable-gd-native-ttf \
           --with-freetype-dir=/usr/include/freetype2 \
           --with-png-dir=/usr/include \
           --with-jpeg-dir=/usr/include \
     && docker-php-ext-install gd \
-    && docker-php-ext-enable gd
+    && docker-php-ext-enable gd \
+    && docker-php-ext-enable imagick
 
 ## Install Xdebug
 RUN curl -fsSL 'https://xdebug.org/files/xdebug-2.5.3.tgz' -o xdebug.tar.gz \
@@ -64,7 +78,7 @@ RUN curl -fsSL 'https://xdebug.org/files/xdebug-2.5.3.tgz' -o xdebug.tar.gz \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_port=9001" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_port=9002" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_connect_back=on" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 # Change TimeZone
@@ -75,7 +89,7 @@ RUN echo "Europe/Kiev" > /etc/timezone
 RUN echo "Install composer globally"
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 
-COPY php.ini /usr/local/etc/php/php.ini
+COPY php.ini /usr/local/etc/php/
 
 RUN /bin/bash -c 'rm -f /usr/local/etc/php-fpm.d/www.conf.default'
 ADD symfony.pool.conf /usr/local/etc/php-fpm.d/
@@ -87,7 +101,7 @@ RUN usermod -u 1000 www-data
 CMD ["php-fpm"]
 
 ## Let's set the working dir
-WORKDIR /var/www/lyberteam
+VOLUME /var/www/lyberteam
 
 
 EXPOSE 9000
