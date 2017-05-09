@@ -49,7 +49,6 @@ RUN docker-php-ext-install mcrypt
 
 # Install GD
 RUN apt-get install -y \
-        libmagickwand-dev \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libpng12-dev \
@@ -63,7 +62,7 @@ RUN apt-get install -y \
 
 # Install Imagick
 RUN apt-get install -y \
-    && libmagickwand-dev \
+       libmagickwand-dev \
     && pecl install imagick \
     && docker-php-ext-enable imagick
 
