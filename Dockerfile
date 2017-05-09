@@ -20,9 +20,9 @@ RUN apt-get update && apt-get install -y \
         wget \
         libevent-dev \
         librabbitmq-dev \
-        libmagickwand-dev \
+#        libmcrypt-dev \
     && docker-php-ext-install iconv \
-    && docker-php-ext-install mcrypt \
+#    && docker-php-ext-install mcrypt \
     && docker-php-ext-install zip \
     && docker-php-ext-install bz2 \
     && docker-php-ext-install mbstring \
@@ -43,7 +43,9 @@ RUN apt-get update && apt-get install -y \
 #    && echo "opcache.validate_timestamps=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
 #    && echo "opcache.fast_shutdown=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
 
-
+# Install mcrypt
+RUN apt-get install -y libmcrypt-dev
+RUN docker-php-ext-install mcrypt
 
 # Install GD
 RUN apt-get install -y \
@@ -51,7 +53,6 @@ RUN apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libpng12-dev \
-        libmcrypt-dev \
     && RUN pecl install imagick \
     && docker-php-ext-configure gd \
           --enable-gd-native-ttf \
