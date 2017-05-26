@@ -60,7 +60,7 @@ RUN apt-get install -y \
           --with-png-dir=/usr/include \
           --with-jpeg-dir=/usr/include \
     && docker-php-ext-install gd \
-    && docker-php-ext-enable gd \
+    && docker-php-ext-enable gd
 
 # Install Imagick
 RUN apt-get install -y \

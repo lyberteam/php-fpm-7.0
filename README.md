@@ -23,9 +23,6 @@
    * Zend OPcache
 
 #### [ PHP Modules ]
-   * amqp `(removed)`
-   * apc `(removed)`
-   * apcu `(removed)`
    * bcmath
    * bz2
    * Core
@@ -36,7 +33,6 @@
    * ev
    * fileinfo
    * filter
-   * ftp `(removed)`
    * gd
    * hash
    * iconv
